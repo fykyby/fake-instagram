@@ -1,6 +1,7 @@
 import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Search from "./components/Search";
+import TopBar from "./components/TopBar";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
@@ -76,6 +77,7 @@ export default function App() {
   if (!auth.currentUser) {
     return (
       <BrowserRouter basename="/">
+        <TopBar />
         <Routes>
           <Route path="/" element={<Home auth={auth} posts={posts} />} />
           <Route path="/search" element={<Search posts={posts} />} />
