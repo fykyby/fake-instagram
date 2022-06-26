@@ -19,7 +19,7 @@ import ExamplePostImg from "./images/rui.png";
 import ExamplePostImg2 from "./images/rui2.jpg";
 const postArr = [
   {
-    user: "user1",
+    user: "CoolUser",
     img: ExamplePostImg,
     msg: "example post message example post message example post message example post message",
     likes: 31074,
@@ -35,7 +35,7 @@ const postArr = [
     ],
   },
   {
-    user: "user2",
+    user: "User44121",
     img: ExamplePostImg2,
     msg: "example post message example post message",
     likes: 21823,
@@ -63,6 +63,7 @@ const db = getFirestore(app);
 export default function App() {
   const [posts, setPosts] = useState(postArr);
 
+  // signInAnonymously
   async function logIn() {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);

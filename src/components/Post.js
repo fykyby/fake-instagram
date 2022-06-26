@@ -5,16 +5,16 @@ import NavButton from "./NavButton";
 export default function Post(props) {
   return (
     <article className="bg-white flex flex-col shadow-sm">
-      <section className="px-3 py-2 sm:px-6 sm:py-4 flex gap-2 items-center justify-start">
+      <section className="px-3 py-2 sm:px-4 sm:py-3 flex gap-3 sm:gap-4 items-center justify-start">
         <Avatar />
-        <h6 className="font-bold text-lg">{props.data.user}</h6>
+        <h6 className="font-semibold text-lg md:text-xl">{props.data.user}</h6>
       </section>
       <img
         src={props.data.img}
         alt=""
         className="w-full max-h-[75vh] object-contain outline outline-1 outline-gray-200"
       />
-      <div className="px-3 py-2 sm:px-6 sm:py-4">
+      <div className="px-3 py-2 sm:px-4 sm:py-4">
         <section className="pb-2 flex gap-3 md:gap-5 items-center justify-start">
           <NavButton icon={HeartIcon} classList="p-0" />
           <NavButton icon={AnnotationIcon} classList="p-0" />
