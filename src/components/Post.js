@@ -3,8 +3,8 @@ import { BiHeart, BiComment } from "react-icons/bi";
 
 export default function Post(props) {
   return (
-    <article className=" border-y-2 border-gray-200 flex flex-col">
-      <section className="px-3 py-2 flex gap-2 items-center justify-start">
+    <article className="bg-white flex flex-col shadow-sm">
+      <section className="px-3 py-2 flex gap-2 items-center justify-start md:py-4">
         <Avatar />
         <h6 className="font-bold text-lg">{props.data.user}</h6>
       </section>
@@ -23,17 +23,12 @@ export default function Post(props) {
           </button>
         </section>
         <h6 className="font-bold text-sm">{props.data.likes} likes</h6>
-        <section className=" flex justify-start place-items-start gap-2">
+        <section className="flex justify-start place-items-start gap-2">
           <h6 className="font-bold">{props.data.user}</h6>
           <p className="">{props.data.msg}</p>
         </section>
         {props.data.comments.length > 0 ? (
           <div>
-            {/* <Link href="/">
-              <a className="text-gray-500 font-bold">
-                Show all comments: {props.data.comments.length}
-              </a>
-            </Link> */}
             <button
               className="text-gray-500 font-bold"
               onClick={() => console.log("comments")}
