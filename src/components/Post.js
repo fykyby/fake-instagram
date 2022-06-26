@@ -8,9 +8,11 @@ export default function Post(props) {
         <Avatar />
         <h6 className="font-bold text-lg">{props.data.user}</h6>
       </section>
-      <section className="w-full h-[100vw] relative max-h-96 outline outline-1 outline-gray-200">
-        {/* <Image src={props.data.img} objectFit="contain" layout="fill" alt="" /> */}
-      </section>
+      <img
+        src={props.data.img}
+        alt=""
+        className="w-full max-h-[75vh] object-contain outline outline-1 outline-gray-200"
+      />
       <div className="px-3 py-2">
         <section className="pb-2 flex gap-3 items-center justify-start">
           <button>
@@ -32,6 +34,12 @@ export default function Post(props) {
                 Show all comments: {props.data.comments.length}
               </a>
             </Link> */}
+            <button
+              className="text-gray-500 font-bold"
+              onClick={() => console.log("comments")}
+            >
+              Show all comments: {props.data.comments.length}
+            </button>
             <section className="flex justify-start place-items-start gap-2">
               <h6 className="font-bold">{props.data.comments[0].user}</h6>
               <p className="">{props.data.comments[0].msg}</p>
