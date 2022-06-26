@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import NavLink from "./NavLink";
 import NavButton from "./NavButton";
 import {
-  BiAddToQueue,
-  BiNavigation,
-  BiHomeAlt,
-  BiSearch,
-} from "react-icons/bi";
+  PlusIcon,
+  ChatAltIcon,
+  HomeIcon,
+  SearchIcon,
+} from "@heroicons/react/outline";
 import DefaultAvatar from "../images/avatar.png";
 
 export default function TopBar() {
@@ -18,16 +18,20 @@ export default function TopBar() {
         </h1>
       </Link>
       <div className="flex justify-end items-center md:gap-4">
-        <NavLink icon={BiHomeAlt} path={"/"} classList="hidden md:block" />
-        <NavLink icon={BiSearch} path={"/search"} classList="hidden md:block" />
-        <NavLink icon={BiAddToQueue} path={"/"} />
-        <NavLink icon={BiNavigation} path={"/"} />
+        <NavLink icon={HomeIcon} path={"/"} classList="hidden sm:block" />
+        <NavLink
+          icon={SearchIcon}
+          path={"/search"}
+          classList="hidden sm:block"
+        />
+        <NavLink icon={PlusIcon} path={"/"} />
+        <NavLink icon={ChatAltIcon} path={"/"} />
         <NavButton
           img={DefaultAvatar}
           onClick={() => {
             console.log("logout");
           }}
-          classList="hidden md:block"
+          classList="hidden sm:block"
         />
       </div>
     </nav>

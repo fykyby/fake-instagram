@@ -4,7 +4,7 @@ export default function NavLink(props) {
   return (
     <Link to={props.path}>
       <div className={`p-2 ${props.classList || ""}`}>
-        {<props.icon size="1.6rem" />}
+        {<props.icon className="h-6 w-6 sm:h-8 sm:w-8" />}
       </div>
     </Link>
   );

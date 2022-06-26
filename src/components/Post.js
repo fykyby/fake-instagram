@@ -1,10 +1,11 @@
 import Avatar from "./Avatar";
-import { BiHeart, BiComment } from "react-icons/bi";
+import { HeartIcon, AnnotationIcon } from "@heroicons/react/outline";
+import NavButton from "./NavButton";
 
 export default function Post(props) {
   return (
     <article className="bg-white flex flex-col shadow-sm">
-      <section className="px-3 py-2 flex gap-2 items-center justify-start md:py-4">
+      <section className="px-3 py-2 sm:px-6 sm:py-4 flex gap-2 items-center justify-start">
         <Avatar />
         <h6 className="font-bold text-lg">{props.data.user}</h6>
       </section>
@@ -13,14 +14,10 @@ export default function Post(props) {
         alt=""
         className="w-full max-h-[75vh] object-contain outline outline-1 outline-gray-200"
       />
-      <div className="px-3 py-2">
-        <section className="pb-2 flex gap-3 items-center justify-start">
-          <button>
-            <BiHeart size="1.6rem" />
-          </button>
-          <button className="p2">
-            <BiComment size="1.6rem" />
-          </button>
+      <div className="px-3 py-2 sm:px-6 sm:py-4">
+        <section className="pb-2 flex gap-3 md:gap-5 items-center justify-start">
+          <NavButton icon={HeartIcon} classList="p-0" />
+          <NavButton icon={AnnotationIcon} classList="p-0" />
         </section>
         <h6 className="font-bold text-sm">{props.data.likes} likes</h6>
         <section className="flex justify-start place-items-start gap-2">
