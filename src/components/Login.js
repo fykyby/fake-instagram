@@ -1,4 +1,4 @@
-export default function Login() {
+export default function Login(props) {
   return (
     <div>
       <main className="min-h-screen flex gap-6 flex-col justify-center items-center">
@@ -7,9 +7,7 @@ export default function Login() {
         </h1>
         <h1 className="text-4xl">Log in to continue</h1>
         <button
-          onClick={() => {
-            console.log("login");
-          }}
+          onClick={props.login}
           className="border border-1 border-gray-200 p-2 px-4 cursor-pointer"
         >
           Log in with Google

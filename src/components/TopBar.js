@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/outline";
 import DefaultAvatar from "../images/avatar.png";
 
-export default function TopBar() {
+export default function TopBar(props) {
   return (
     <nav className="sticky shadow-sm z-50 top-0 h-12 sm:h-16 border-b bg-white border-gray-200 w-full flex justify-between items-center px-3 lg:px-4">
       <Link to="/">
@@ -28,9 +28,7 @@ export default function TopBar() {
         <NavLink icon={ChatAltIcon} path={"/"} />
         <NavButton
           img={DefaultAvatar}
-          onClick={() => {
-            console.log("logout");
-          }}
+          onClick={props.logout}
           classList="hidden sm:block"
         />
       </div>

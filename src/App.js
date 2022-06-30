@@ -61,6 +61,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export default function App() {
+  const [currentUser, setCurrentUser] = useState(null);
   const [posts, setPosts] = useState(postArr);
 
   // signInAnonymously
@@ -73,12 +74,15 @@ export default function App() {
     signOut(auth);
   }
 
-  onAuthStateChanged(auth, (user) => {});
+  onAuthStateChanged(auth, (user) => {
+    console.log(user);
+    setCurrentUser(user);
+  });
 
-  if (!auth.currentUser) {
+  if (currentUser) {
     return (
       <BrowserRouter basename="/">
-        <TopBar />
+        <TopBar logout={logOut} />
         <Routes>
           <Route path="/" element={<Home auth={auth} posts={posts} />} />
           <Route path="/search" element={<Search posts={posts} />} />
@@ -87,6 +91,6 @@ export default function App() {
       </BrowserRouter>
     );
   } else {
-    return <Login />;
+    return <Login login={logIn} />;
   }
 }
