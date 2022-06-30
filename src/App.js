@@ -1,7 +1,10 @@
+import { useState } from "react";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Search from "./components/Search";
 import TopBar from "./components/TopBar";
+import Upload from "./components/Upload";
+import Login from "./components/Login";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
@@ -12,12 +15,9 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
-import Login from "./components/Login";
-import { useState } from "react";
 
 import ExamplePostImg from "./images/rui.png";
 import ExamplePostImg2 from "./images/rui2.jpg";
-import Upload from "./components/Upload";
 const postArr = [
   {
     user: "CoolUser",
