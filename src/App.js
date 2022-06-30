@@ -17,6 +17,7 @@ import { useState } from "react";
 
 import ExamplePostImg from "./images/rui.png";
 import ExamplePostImg2 from "./images/rui2.jpg";
+import Upload from "./components/Upload";
 const postArr = [
   {
     user: "CoolUser",
@@ -85,6 +86,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home auth={auth} posts={posts} />} />
           <Route path="/search" element={<Search posts={posts} />} />
+          <Route path="/upload" element={<Upload />} />
         </Routes>
         <Nav />
       </BrowserRouter>

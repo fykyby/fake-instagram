@@ -24,7 +24,7 @@ export default function TopBar(props) {
           path={"/search"}
           classList="hidden sm:block"
         />
-        <NavLink icon={PlusIcon} path={"/"} />
+        <NavLink icon={PlusIcon} path={"/upload"} />
         <NavLink icon={ChatAltIcon} path={"/"} />
         <NavButton
           img={DefaultAvatar}
