@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, createContext, useEffect } from "react";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Search from "./components/Search";
 import TopBar from "./components/TopBar";
 import Upload from "./components/Upload";
 import Login from "./components/Login";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -14,40 +14,9 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
-import ExamplePostImg from "./images/rui.png";
-import ExamplePostImg2 from "./images/rui2.jpg";
-const postArr = [
-  {
-    user: "CoolUser",
-    img: ExamplePostImg,
-    msg: "example post message example post message example post message example post message",
-    likes: 31074,
-    comments: [
-      {
-        user: "useeeeer",
-        msg: "example comment",
-      },
-      {
-        user: "another user",
-        msg: "and another example comment",
-      },
-    ],
-  },
-  {
-    user: "User44121",
-    img: ExamplePostImg2,
-    msg: "example post message example post message",
-    likes: 21823,
-    comments: [
-      {
-        user: "useeeeer",
-        msg: "example comment",
-      },
-    ],
-  },
-];
 const firebaseConfig = {
   apiKey: "AIzaSyCcxe-uHg2CZm2SLuEcVzfTyOD15DB3g08",
   authDomain: "fake-instagram-f668b.firebaseapp.com",
@@ -60,12 +29,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
+
+export const FirebaseContext = createContext();
 
 export default function App() {
+  const [firebase, setFirebase] = useState(FirebaseContext);
   const [currentUser, setCurrentUser] = useState(null);
-  const [posts, setPosts] = useState(postArr);
 
-  // signInAnonymously
+  useEffect(() => {
+    setFirebase({
+      app: app,
+      auth: auth,
+      db: db,
+      storage: storage,
+    });
+  }, []);
+
+  // signInAnonymously?
   async function logIn() {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
@@ -77,17 +58,23 @@ export default function App() {
 
   onAuthStateChanged(auth, (user) => {
     setCurrentUser(user);
+
+    const newFirebase = firebase;
+    newFirebase.auth = auth;
+    setFirebase(newFirebase);
   });
 
   if (currentUser) {
     return (
       <BrowserRouter basename="/">
         <TopBar logout={logOut} />
-        <Routes>
-          <Route path="/" element={<Home auth={auth} posts={posts} />} />
-          <Route path="/search" element={<Search posts={posts} />} />
-          <Route path="/upload" element={<Upload />} />
-        </Routes>
+        <FirebaseContext.Provider value={firebase}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/upload" element={<Upload />} />
+          </Routes>
+        </FirebaseContext.Provider>
         <Nav />
       </BrowserRouter>
     );
