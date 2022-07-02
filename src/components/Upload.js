@@ -24,7 +24,7 @@ export default function Upload() {
       lastComment: null,
       timestamp: Date.now(),
     });
-    const imageRef = ref(firebase.storage, `images/${docRef.id}/image.jpg`);
+    const imageRef = ref(firebase.storage, `images/${docRef.id}.jpg`);
     uploadBytes(imageRef, postData.img);
   }
 

@@ -32,7 +32,7 @@ export default function Home() {
       const newPosts = posts;
 
       for (const i of documentSnapshots.docs) {
-        const imgRef = ref(firebase.storage, `images/${i.id}/image.jpg`);
+        const imgRef = ref(firebase.storage, `images/${i.id}.jpg`);
         const url = await getDownloadURL(imgRef);
         const urlResponse = await url;
 
