@@ -3,10 +3,12 @@ import { PlusIcon, CheckIcon } from "@heroicons/react/outline";
 import { FirebaseContext } from "../App";
 import { addDoc, collection } from "firebase/firestore";
 import { uploadBytes, ref } from "firebase/storage";
+import { Link } from "react-router-dom";
 
 export default function Upload() {
   const firebase = useContext(FirebaseContext);
   const [uploadedImg, setUploadedImg] = useState(null);
+  const [postUploaded, setPostUploaded] = useState(false);
   const [caption, setCaption] = useState("");
 
   function handleChage(e) {
@@ -14,6 +16,8 @@ export default function Upload() {
   }
 
   async function createPost(postData) {
+    setPostUploaded(true);
+
     const docRef = await addDoc(collection(firebase.db, "posts"), {
       userID: firebase.auth.currentUser.uid,
       userName: firebase.auth.currentUser.displayName,
@@ -28,8 +32,19 @@ export default function Upload() {
     uploadBytes(imageRef, postData.img);
   }
 
-  return (
-    <div>
+  if (postUploaded) {
+    return (
+      <main className="h-[calc(100vh-3rem)] sm:h-[calc(100vh-4rem)] bg-gray-200 flex justify-center items-center md:py-2">
+        <div className="flex flex-col justify-center items-center px-3 py-2 sm:px-4 sm:py-3 w-full max-w-[48rem] h-full bg-white shadow-sm">
+          <div>Upload successful</div>
+          <Link to="/">
+            <div className="font-semibold p-2">Click here to return</div>
+          </Link>
+        </div>
+      </main>
+    );
+  } else {
+    return (
       <main className="h-[calc(100vh-3rem)] sm:h-[calc(100vh-4rem)] bg-gray-200 flex justify-center items-center md:py-2">
         <div className="flex justify-center items-center px-3 py-2 sm:px-4 sm:py-3 w-full max-w-[48rem] h-full bg-white shadow-sm">
           {uploadedImg ? (
@@ -76,6 +91,6 @@ export default function Upload() {
           )}
         </div>
       </main>
-    </div>
-  );
+    );
+  }
 }
