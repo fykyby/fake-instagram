@@ -1,16 +1,33 @@
 import Avatar from "./Avatar";
-import { HeartIcon, AnnotationIcon } from "@heroicons/react/outline";
+import { HeartIcon, AnnotationIcon, TrashIcon } from "@heroicons/react/outline";
 import NavButton from "./NavButton";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { FirebaseContext } from "../App";
 
 export default function Post(props) {
+  const firebase = useContext(FirebaseContext);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
     <article className="bg-white flex flex-col shadow-sm w-full max-w-[48rem]">
-      <section className="px-3 py-2 sm:px-4 sm:py-3 flex gap-3 sm:gap-4 items-center justify-start">
-        <Avatar src={props.data.profilePic} />
-        <h6 className="font-bold text-md md:text-lg">{props.data.userName}</h6>
+      <section className="flex justify-between">
+        <div className="px-3 py-2 sm:px-4 sm:py-3 flex gap-3 sm:gap-4 items-center justify-start">
+          <Avatar src={props.data.profilePic} />
+          <h6 className="font-bold text-md md:text-lg">
+            {props.data.userName}
+          </h6>
+        </div>
+        {firebase.auth.currentUser.uid === props.data.userID ? (
+          <div className="flex items-center justify-end px-3 py-2 sm:px-4 sm:py-3">
+            <NavButton
+              icon={TrashIcon}
+              onClick={() => {
+                console.log("delete");
+              }}
+              classList="p-0"
+            />
+          </div>
+        ) : null}
       </section>
       <img
         src={props.data.img}
