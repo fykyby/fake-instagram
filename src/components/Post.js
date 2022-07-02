@@ -10,9 +10,7 @@ export default function Post(props) {
     <article className="bg-white flex flex-col shadow-sm w-full max-w-[48rem]">
       <section className="px-3 py-2 sm:px-4 sm:py-3 flex gap-3 sm:gap-4 items-center justify-start">
         <Avatar />
-        <h6 className="font-semibold text-lg md:text-xl">
-          {props.data.userName}
-        </h6>
+        <h6 className="font-bold text-md md:text-lg">{props.data.userName}</h6>
       </section>
       <img
         src={props.data.img}
@@ -31,8 +29,10 @@ export default function Post(props) {
         </section>
         <h6 className="font-bold text-sm">{props.data.likeCount} likes</h6>
         <section className="flex justify-start place-items-start gap-2">
-          <h6 className="font-bold">{props.data.userName}</h6>
-          <p className="">{props.data.caption}</p>
+          <h6 className="font-bold text-sm md:text-base">
+            {props.data.userName}
+          </h6>
+          <p className="text-sm md:text-base">{props.data.caption}</p>
         </section>
         {props.data.commentCount > 0 ? (
           <div>
