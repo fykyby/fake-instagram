@@ -4,7 +4,7 @@ import { FirebaseContext } from "../App";
 import { addDoc, collection } from "firebase/firestore";
 import { uploadBytes, ref } from "firebase/storage";
 
-export default function Upload(props) {
+export default function Upload() {
   const firebase = useContext(FirebaseContext);
   const [uploadedImg, setUploadedImg] = useState(null);
   const [caption, setCaption] = useState("");
@@ -17,6 +17,7 @@ export default function Upload(props) {
     const docRef = await addDoc(collection(firebase.db, "posts"), {
       userID: firebase.auth.currentUser.uid,
       userName: firebase.auth.currentUser.displayName,
+      profilePic: firebase.auth.currentUser.photoURL,
       caption: postData.caption,
       likeCount: 0,
       commentCount: 0,

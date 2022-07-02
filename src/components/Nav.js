@@ -1,5 +1,4 @@
 import { HomeIcon, SearchIcon } from "@heroicons/react/outline";
-import DefaultAvatar from "../images/avatar.png";
 import NavButton from "./NavButton";
 import NavLink from "./NavLink";
 
@@ -9,7 +8,6 @@ export default function Nav() {
       <NavLink icon={HomeIcon} path={"/"} />
       <NavLink icon={SearchIcon} path={"/search"} />
       <NavButton
-        img={DefaultAvatar}
         onClick={() => {
           console.log("logout");
         }}

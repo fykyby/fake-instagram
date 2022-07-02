@@ -7,7 +7,6 @@ import {
   HomeIcon,
   SearchIcon,
 } from "@heroicons/react/outline";
-import DefaultAvatar from "../images/avatar.png";
 
 export default function TopBar(props) {
   return (
@@ -26,11 +25,7 @@ export default function TopBar(props) {
         />
         <NavLink icon={PlusIcon} path={"/upload"} />
         <NavLink icon={ChatAltIcon} path={"/"} />
-        <NavButton
-          img={DefaultAvatar}
-          onClick={props.logout}
-          classList="hidden sm:block"
-        />
+        <NavButton onClick={props.logout} classList="hidden sm:block" />
       </div>
     </nav>
   );

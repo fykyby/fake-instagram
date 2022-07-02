@@ -9,7 +9,7 @@ export default function Post(props) {
   return (
     <article className="bg-white flex flex-col shadow-sm w-full max-w-[48rem]">
       <section className="px-3 py-2 sm:px-4 sm:py-3 flex gap-3 sm:gap-4 items-center justify-start">
-        <Avatar />
+        <Avatar src={props.data.profilePic} />
         <h6 className="font-bold text-md md:text-lg">{props.data.userName}</h6>
       </section>
       <img

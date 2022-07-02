@@ -67,15 +67,15 @@ export default function App() {
   if (currentUser) {
     return (
       <BrowserRouter basename="/">
-        <TopBar logout={logOut} />
         <FirebaseContext.Provider value={firebase}>
+          <TopBar logout={logOut} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
             <Route path="/upload" element={<Upload />} />
           </Routes>
+          <Nav />
         </FirebaseContext.Provider>
-        <Nav />
       </BrowserRouter>
     );
   } else {
