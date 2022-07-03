@@ -5,6 +5,8 @@ import {
   collection,
   limit,
   getDocs,
+  doc,
+  getDoc,
   startAfter,
   orderBy,
 } from "firebase/firestore";
@@ -67,9 +69,9 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
-    // loadMorePosts();
-  }, []);
+  // useEffect(() => {
+  //   // loadMorePosts();
+  // }, []);
 
   return (
     <InfiniteScroll

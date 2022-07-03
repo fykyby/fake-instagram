@@ -1,9 +1,17 @@
 import Avatar from "./Avatar";
 import { HeartIcon, AnnotationIcon, TrashIcon } from "@heroicons/react/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
 import NavButton from "./NavButton";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FirebaseContext } from "../App";
-import { doc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  getDocs,
+  setDoc,
+  collection,
+} from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
 export default function Post(props) {
@@ -11,6 +19,83 @@ export default function Post(props) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [likeIcon, setLikeIcon] = useState(HeartIcon);
+
+  useEffect(() => {
+    async function setInitialLikeIcon() {
+      if (await checkIfLiked()) {
+        setLikeIcon(HeartIconSolid);
+      } else {
+        setLikeIcon(HeartIcon);
+      }
+    }
+
+    setLikeCount(props.data.likeCount);
+    setInitialLikeIcon();
+  }, []);
+
+  useEffect(() => {
+    updateLikeCount();
+  }, [likeCount]);
+
+  async function handleLikes() {
+    if (await checkIfLiked()) {
+      setLikeCount((prev) => prev - 1);
+      setLikeIcon(HeartIcon);
+      removeLike();
+    } else {
+      setLikeCount((prev) => prev + 1);
+      setLikeIcon(HeartIconSolid);
+      addLike();
+    }
+  }
+
+  async function addLike() {
+    await setDoc(
+      doc(
+        firebase.db,
+        "posts",
+        props.data.id,
+        "likes",
+        firebase.auth.currentUser.uid
+      ),
+      {
+        liked: true,
+      }
+    );
+  }
+
+  async function removeLike() {
+    await deleteDoc(
+      doc(
+        firebase.db,
+        "posts",
+        props.data.id,
+        "likes",
+        firebase.auth.currentUser.uid
+      )
+    );
+  }
+
+  async function updateLikeCount() {
+    await updateDoc(doc(firebase.db, "posts", props.data.id), {
+      likeCount: likeCount,
+    });
+  }
+
+  async function checkIfLiked() {
+    const collectionSnap = await getDocs(
+      collection(firebase.db, "posts", props.data.id, "likes")
+    );
+
+    for (const doc of collectionSnap.docs) {
+      if (doc.id === firebase.auth.currentUser.uid) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   async function deletePost() {
     setConfirmDeleteVisible(false);
@@ -93,10 +178,10 @@ export default function Post(props) {
         {imgLoaded ? null : <div className="h-96" />}
         <div className="px-3 py-2 sm:px-4 sm:py-4">
           <section className="pb-2 flex gap-3 md:gap-5 items-center justify-start">
-            <NavButton icon={HeartIcon} classList="p-0" />
+            <NavButton icon={likeIcon} onClick={handleLikes} classList="p-0" />
             <NavButton icon={AnnotationIcon} classList="p-0" />
           </section>
-          <h6 className="font-bold text-sm">{props.data.likeCount} likes</h6>
+          <h6 className="font-bold text-sm">{likeCount} likes</h6>
           <section className="flex justify-start place-items-start gap-2">
             <h6 className="font-bold text-sm md:text-base">
               {props.data.userName}
