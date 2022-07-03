@@ -74,7 +74,7 @@ export default function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/upload" element={<Upload />} />
           </Routes>
-          <Nav />
+          <Nav logout={logOut} />
         </FirebaseContext.Provider>
       </BrowserRouter>
     );
