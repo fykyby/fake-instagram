@@ -8,12 +8,12 @@ export default function Comment(props) {
   const [deleted, setDeleted] = useState(false);
 
   async function deleteComment() {
-    setDeleted(true);
     await deleteDoc(
       doc(firebase.db, "posts", props.data.postID, "comments", props.data.id)
     );
 
     props.deleteComment(props.data.id);
+    setDeleted(true);
   }
 
   if (deleted) {
