@@ -132,7 +132,12 @@ export default function CommentsWindow(props) {
   }
 
   return (
-    <div className="fixed z-10 left-0 top-0 w-full h-full bg-black/40 flex flex-col justify-center items-center">
+    <div
+      onClick={(e) => {
+        if (e.currentTarget === e.target) props.hideWindow();
+      }}
+      className="fixed z-10 left-0 top-0 w-full h-full bg-black/40 flex flex-col justify-center items-center"
+    >
       <section className="flex px-3 py-2 justify-end items-center bg-white outline-gray-200 outline outline-1 w-full max-w-[48rem]">
         <button onClick={props.hideWindow}>
           <XIcon className="h-6 w-6" />
