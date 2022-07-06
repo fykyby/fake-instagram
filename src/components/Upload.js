@@ -11,7 +11,7 @@ export default function Upload() {
   const [postUploaded, setPostUploaded] = useState(false);
   const [caption, setCaption] = useState("");
 
-  function handleChage(e) {
+  function handleChange(e) {
     setCaption(e.target.value);
   }
 
@@ -59,7 +59,7 @@ export default function Upload() {
                 className="border px-2 py-1 h-28 resize-none w-full shadow-sm"
                 maxLength="350"
                 value={caption}
-                onChange={(e) => handleChage(e)}
+                onChange={(e) => handleChange(e)}
               />
               <button
                 className="w-full h-16 p-2 border flex justify-center items-center shadow-sm"

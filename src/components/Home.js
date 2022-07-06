@@ -30,7 +30,6 @@ export default function Home() {
   async function loadMorePosts() {
     try {
       const documentSnapshots = await getDocs(nextQuery);
-
       const newPosts = posts;
 
       for (const i of documentSnapshots.docs) {

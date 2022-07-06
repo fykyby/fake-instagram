@@ -13,6 +13,7 @@ import {
   collection,
 } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
+import CommentsWindow from "./CommentsWindow";
 
 export default function Post(props) {
   const firebase = useContext(FirebaseContext);
@@ -21,6 +22,7 @@ export default function Post(props) {
   const [deleted, setDeleted] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [likeIcon, setLikeIcon] = useState(HeartIcon);
+  const [commentsWindowVisible, setCommentsWindowVisible] = useState(false);
 
   useEffect(() => {
     async function setInitialLikeIcon() {
@@ -107,6 +109,14 @@ export default function Post(props) {
     await deleteObject(imgRef);
   }
 
+  function showComments() {
+    setCommentsWindowVisible(true);
+  }
+
+  function hideComments() {
+    setCommentsWindowVisible(false);
+  }
+
   if (deleted) {
     return (
       <article className="bg-white flex flex-col shadow-sm w-full max-w-[48rem]">
@@ -179,7 +189,11 @@ export default function Post(props) {
         <div className="px-3 py-2 sm:px-4 sm:py-4">
           <section className="pb-2 flex gap-3 md:gap-5 items-center justify-start">
             <NavButton icon={likeIcon} onClick={handleLikes} classList="p-0" />
-            <NavButton icon={AnnotationIcon} classList="p-0" />
+            <NavButton
+              icon={AnnotationIcon}
+              onClick={showComments}
+              classList="p-0"
+            />
           </section>
           <h6 className="font-bold text-sm">{likeCount} likes</h6>
           <section className="flex justify-start place-items-start gap-2">
@@ -192,19 +206,26 @@ export default function Post(props) {
             <div>
               <button
                 className="text-gray-500 font-bold"
-                onClick={() => console.log("comments")}
+                onClick={showComments}
               >
                 Show all comments: {props.data.commentCount}
               </button>
               {props.data.lastComment ? (
-                <section className="flex justify-start place-items-start gap-2">
-                  <h6 className="font-bold">{props.data.lastComment.user}</h6>
-                  <p className="">{props.data.lastComment.msg}</p>
+                <section className="flex justify-start items-start gap-2">
+                  <h6 className="font-bold text-sm md:text-base whitespace-nowrap">
+                    {props.data.lastComment.userName}
+                  </h6>
+                  <p className="text-sm md:text-base break-all">
+                    {props.data.lastComment.comment}
+                  </p>
                 </section>
               ) : null}
             </div>
           ) : null}
         </div>
+        {commentsWindowVisible ? (
+          <CommentsWindow data={props.data} hideWindow={hideComments} />
+        ) : null}
       </article>
     );
   }

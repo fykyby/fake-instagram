@@ -1,0 +1,179 @@
+import { useContext, useEffect, useState } from "react";
+import {
+  addDoc,
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+  startAfter,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import { FirebaseContext } from "../App";
+import { XIcon, ArrowRightIcon } from "@heroicons/react/outline";
+import InfiniteScroll from "react-infinite-scroller";
+import Comment from "./Comment";
+
+export default function CommentsWindow(props) {
+  const commentLoadLimit = 10;
+
+  const firebase = useContext(FirebaseContext);
+  const [commentCount, setCommentCount] = useState(0);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [nextQuery, setNextQuery] = useState(
+    query(
+      collection(firebase.db, "posts", props.data.id, "comments"),
+      orderBy("timestamp", "desc"),
+      limit(commentLoadLimit)
+    )
+  );
+  const [moreToLoad, setMoreToLoad] = useState(true);
+
+  useEffect(() => {
+    setCommentCount(props.data.commentCount);
+  }, []);
+
+  useEffect(() => {
+    updateCommentCount();
+  }, [commentCount]);
+
+  function handleChange(e) {
+    setComment(e.target.value);
+  }
+
+  async function addComment() {
+    if (comment === "") return;
+
+    const newComment = {
+      userID: firebase.auth.currentUser.uid,
+      userName: firebase.auth.currentUser.displayName,
+      profilePic: firebase.auth.currentUser.photoURL,
+      comment: comment,
+      timestamp: Date.now(),
+      postID: props.data.id,
+    };
+
+    const docRef = await addDoc(
+      collection(firebase.db, "posts", props.data.id, "comments"),
+      {
+        ...newComment,
+      }
+    );
+    newComment.id = docRef.id;
+
+    await updateDoc(doc(firebase.db, "posts", props.data.id), {
+      lastComment: newComment,
+    });
+    setCommentCount((prev) => prev + 1);
+    setComments((prev) => [{ ...newComment }, ...prev]);
+    setComment("");
+  }
+
+  async function updateCommentCount() {
+    await updateDoc(doc(firebase.db, "posts", props.data.id), {
+      commentCount: commentCount,
+    });
+  }
+
+  async function deleteComment(commentID) {
+    const index = comments.findIndex((comm) => {
+      return comm.id === commentID;
+    });
+
+    if (index !== 0) {
+      setCommentCount((prev) => prev - 1);
+    } else if (index === 0 && comments.length > 1) {
+      await updateDoc(doc(firebase.db, "posts", props.data.id), {
+        lastComment: comments[index + 1],
+      });
+      setCommentCount((prev) => prev - 1);
+    } else if (index === 0 && comments.length <= 1) {
+      await updateDoc(doc(firebase.db, "posts", props.data.id), {
+        lastComment: null,
+      });
+      setCommentCount(0);
+    }
+  }
+
+  async function loadMoreComments() {
+    try {
+      const documentSnapshots = await getDocs(nextQuery);
+      const newComments = comments;
+
+      for (const i of documentSnapshots.docs) {
+        const data = i.data();
+        const newComment = {
+          ...data,
+          id: i.id,
+        };
+
+        // Prevent repeated comments
+        if (newComments.some((e) => e.id === newComment.id)) continue;
+        newComments.push(newComment);
+      }
+
+      setComments([...newComments]);
+
+      const lastVisible =
+        documentSnapshots.docs[documentSnapshots.docs.length - 1];
+      setNextQuery(
+        query(
+          collection(firebase.db, "posts", props.data.id, "comments"),
+          orderBy("timestamp", "desc"),
+          startAfter(lastVisible),
+          limit(commentLoadLimit)
+        )
+      );
+    } catch (err) {
+      setMoreToLoad(false);
+    }
+  }
+
+  return (
+    <div className="fixed z-10 left-0 top-0 w-full h-full bg-black/40 flex flex-col justify-center items-center">
+      <section className="flex px-3 py-2 justify-end items-center bg-white outline-gray-200 outline outline-1 w-full max-w-[48rem]">
+        <button onClick={props.hideWindow}>
+          <XIcon className="h-6 w-6" />
+        </button>
+      </section>
+      <div className="flex flex-col p-3 sm:p-4 gap-3 sm:gap-4 bg-white outline-gray-200 outline outline-1 w-full max-w-[48rem] min-h-[6rem] max-h-[65vh] overflow-y-auto">
+        <section className="flex">
+          <textarea
+            placeholder="Add comment"
+            className="border px-2 py-1 h-20 resize-none w-full shadow-sm"
+            maxLength="250"
+            value={comment}
+            onChange={(e) => handleChange(e)}
+          />
+          <button
+            className="w-20 flex justify-center items-center border shadow-sm"
+            onClick={addComment}
+          >
+            <ArrowRightIcon className="h-6 w-6" />
+          </button>
+        </section>
+        <InfiniteScroll
+          loadMore={loadMoreComments}
+          pageStart={0}
+          hasMore={moreToLoad}
+          useWindow={false}
+          threshold={200}
+        >
+          <section className="flex flex-col gap-4 items-center justify-start">
+            {comments.map((comm, index) => {
+              return (
+                <Comment
+                  data={comm}
+                  key={index}
+                  deleteComment={deleteComment}
+                />
+              );
+            }) || null}
+          </section>
+        </InfiniteScroll>
+      </div>
+    </div>
+  );
+}
