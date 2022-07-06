@@ -111,10 +111,12 @@ export default function Post(props) {
 
   function showComments() {
     setCommentsWindowVisible(true);
+    document.body.style.overflow = "hidden";
   }
 
   function hideComments() {
     setCommentsWindowVisible(false);
+    document.body.style.overflow = "";
   }
 
   if (deleted) {
