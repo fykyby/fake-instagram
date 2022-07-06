@@ -1,4 +1,3 @@
-import Avatar from "./Avatar";
 import { TrashIcon } from "@heroicons/react/outline";
 import { deleteDoc, doc } from "firebase/firestore";
 import { FirebaseContext } from "../App";

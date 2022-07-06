@@ -1,12 +1,10 @@
 import Post from "./Post";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import {
   query,
   collection,
   limit,
   getDocs,
-  doc,
-  getDoc,
   startAfter,
   orderBy,
 } from "firebase/firestore";
@@ -67,10 +65,6 @@ export default function Home() {
       setMoreToLoad(false);
     }
   }
-
-  // useEffect(() => {
-  //   // loadMorePosts();
-  // }, []);
 
   return (
     <InfiniteScroll
