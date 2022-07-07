@@ -22,6 +22,8 @@ export default function Post(props) {
   const [deleted, setDeleted] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [likeIcon, setLikeIcon] = useState(HeartIcon);
+  const [commentCount, setCommentCount] = useState(0);
+  const [lastComment, setLastComment] = useState(null);
   const [commentsWindowVisible, setCommentsWindowVisible] = useState(false);
 
   useEffect(() => {
@@ -34,7 +36,9 @@ export default function Post(props) {
     }
 
     setLikeCount(props.data.likeCount);
+    setCommentCount(props.data.commentCount);
     setInitialLikeIcon();
+    setLastComment(props.data.lastComment);
   }, []);
 
   useEffect(() => {
@@ -204,21 +208,21 @@ export default function Post(props) {
             </h6>
             <p className="text-sm md:text-base">{props.data.caption}</p>
           </section>
-          {props.data.commentCount > 0 ? (
+          {commentCount > 0 ? (
             <div>
               <button
                 className="text-gray-500 font-bold"
                 onClick={showComments}
               >
-                Show all comments: {props.data.commentCount}
+                Show all comments: {commentCount}
               </button>
-              {props.data.lastComment ? (
+              {lastComment ? (
                 <section className="flex justify-start items-start gap-2">
                   <h6 className="font-bold text-sm md:text-base whitespace-nowrap">
-                    {props.data.lastComment.userName}
+                    {lastComment.userName}
                   </h6>
                   <p className="text-sm md:text-base break-all">
-                    {props.data.lastComment.comment}
+                    {lastComment.comment}
                   </p>
                 </section>
               ) : null}
@@ -226,7 +230,14 @@ export default function Post(props) {
           ) : null}
         </div>
         {commentsWindowVisible ? (
-          <CommentsWindow data={props.data} hideWindow={hideComments} />
+          <CommentsWindow
+            data={props.data}
+            commentCount={commentCount}
+            setCommentCount={setCommentCount}
+            lastComment={lastComment}
+            setLastComment={setLastComment}
+            hideWindow={hideComments}
+          />
         ) : null}
       </article>
     );

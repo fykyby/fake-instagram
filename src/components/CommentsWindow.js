@@ -19,7 +19,6 @@ export default function CommentsWindow(props) {
   const commentLoadLimit = 10;
 
   const firebase = useContext(FirebaseContext);
-  const [commentCount, setCommentCount] = useState(0);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [nextQuery, setNextQuery] = useState(
@@ -32,12 +31,8 @@ export default function CommentsWindow(props) {
   const [moreToLoad, setMoreToLoad] = useState(true);
 
   useEffect(() => {
-    setCommentCount(props.data.commentCount);
-  }, []);
-
-  useEffect(() => {
     updateCommentCount();
-  }, [commentCount]);
+  }, [props.commentCount]);
 
   function handleChange(e) {
     setComment(e.target.value);
@@ -63,17 +58,16 @@ export default function CommentsWindow(props) {
     );
     newComment.id = docRef.id;
 
-    await updateDoc(doc(firebase.db, "posts", props.data.id), {
-      lastComment: newComment,
-    });
-    setCommentCount((prev) => prev + 1);
+    setLastComment(newComment);
+
+    props.setCommentCount((prev) => prev + 1);
     setComments((prev) => [{ ...newComment }, ...prev]);
     setComment("");
   }
 
   async function updateCommentCount() {
     await updateDoc(doc(firebase.db, "posts", props.data.id), {
-      commentCount: commentCount,
+      commentCount: props.commentCount,
     });
   }
 
@@ -82,19 +76,25 @@ export default function CommentsWindow(props) {
       return comm.id === commentID;
     });
 
-    if (index !== 0) {
-      setCommentCount((prev) => prev - 1);
-    } else if (index === 0 && comments.length > 1) {
-      await updateDoc(doc(firebase.db, "posts", props.data.id), {
-        lastComment: comments[index + 1],
-      });
-      setCommentCount((prev) => prev - 1);
-    } else if (index === 0 && comments.length <= 1) {
-      await updateDoc(doc(firebase.db, "posts", props.data.id), {
-        lastComment: null,
-      });
-      setCommentCount(0);
+    const newComments = comments;
+    newComments.splice(index, 1);
+
+    props.setCommentCount((prev) => prev - 1);
+
+    if (newComments.length <= 0) {
+      setLastComment(null);
+    } else if (index === 0) {
+      setLastComment(newComments[0]);
     }
+
+    setComments([...newComments]);
+  }
+
+  async function setLastComment(newVal) {
+    props.setLastComment(newVal);
+    await updateDoc(doc(firebase.db, "posts", props.data.id), {
+      lastComment: newVal,
+    });
   }
 
   async function loadMoreComments() {
