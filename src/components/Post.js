@@ -157,7 +157,7 @@ export default function Post(props) {
                     onClick={() => {
                       deletePost();
                     }}
-                    className="outline-gray-200 outline-1 outline px-2 sm:py-1 font-semibold"
+                    className="outline-gray-200 outline-1 outline px-2 sm:py-1 font-semibold focus:outline-black"
                   >
                     Delete
                   </button>
@@ -165,7 +165,7 @@ export default function Post(props) {
                     onClick={() => {
                       setConfirmDeleteVisible(false);
                     }}
-                    className="outline-gray-200 outline-1 outline px-2 sm:py-1 font-semibold"
+                    className="outline-gray-200 outline-1 outline px-2 sm:py-1 font-semibold focus:outline-black"
                   >
                     Cancel
                   </button>

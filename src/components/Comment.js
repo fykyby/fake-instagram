@@ -1,10 +1,15 @@
 import { TrashIcon } from "@heroicons/react/outline";
 import { deleteDoc, doc } from "firebase/firestore";
 import { FirebaseContext } from "../App";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Comment(props) {
   const firebase = useContext(FirebaseContext);
+  const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
+
+  useEffect(() => {
+    setConfirmDeleteVisible(false);
+  }, [props.comments]);
 
   async function deleteComment() {
     await deleteDoc(
@@ -31,9 +36,32 @@ export default function Comment(props) {
       </h6>
       <p className="text-sm md:text-base break-all">{props.data.comment}</p>
       {props.data.userID === firebase.auth.currentUser.uid ? (
-        <button onClick={deleteComment} className="ml-auto">
-          <TrashIcon className="h-6 w-6" />
-        </button>
+        <div className="ml-auto mb-[-1rem]">
+          {confirmDeleteVisible ? (
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  deleteComment();
+                }}
+                className="outline-gray-200 outline-1 outline px-2 sm:py-1 font-semibold focus:outline-black"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => {
+                  setConfirmDeleteVisible(false);
+                }}
+                className="outline-gray-200 outline-1 outline px-2 sm:py-1 font-semibold focus:outline-black"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => setConfirmDeleteVisible(true)}>
+              <TrashIcon className="h-6 w-6 md:h-8 md:w-8" />
+            </button>
+          )}
+        </div>
       ) : null}
     </article>
   );
