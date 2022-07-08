@@ -1,7 +1,6 @@
 import { useState, createContext, useEffect } from "react";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
-import Search from "./components/Search";
 import TopBar from "./components/TopBar";
 import Upload from "./components/Upload";
 import Login from "./components/Login";
@@ -71,7 +70,6 @@ export default function App() {
           <TopBar logout={logOut} />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/search" element={<Search />} />
             <Route path="/upload" element={<Upload />} />
           </Routes>
           <Nav logout={logOut} />

@@ -1,12 +1,7 @@
 import { Link } from "react-router-dom";
 import NavLink from "./NavLink";
 import NavButton from "./NavButton";
-import {
-  PlusIcon,
-  ChatAltIcon,
-  HomeIcon,
-  SearchIcon,
-} from "@heroicons/react/outline";
+import { PlusIcon, HomeIcon } from "@heroicons/react/outline";
 
 export default function TopBar(props) {
   return (
@@ -18,13 +13,13 @@ export default function TopBar(props) {
       </Link>
       <div className="flex justify-end items-center md:gap-4">
         <NavLink icon={HomeIcon} path={"/"} classList="hidden sm:block" />
-        <NavLink
+        {/* <NavLink
           icon={SearchIcon}
           path={"/search"}
           classList="hidden sm:block"
-        />
+        /> */}
         <NavLink icon={PlusIcon} path={"/upload"} />
-        <NavLink icon={ChatAltIcon} path={"/"} />
+        {/* <NavLink icon={ChatAltIcon} path={"/"} /> */}
         <NavButton onClick={props.logout} classList="hidden sm:block" />
       </div>
     </nav>
