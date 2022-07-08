@@ -45,6 +45,12 @@ export default function Post(props) {
     updateLikeCount();
   }, [likeCount]);
 
+  useEffect(() => {
+    if (commentCount < 0) {
+      setCommentCount(0);
+    }
+  }, [commentCount]);
+
   async function handleLikes() {
     if (await checkIfLiked()) {
       setLikeCount((prev) => prev - 1);
