@@ -31,6 +31,10 @@ export default function CommentsWindow(props) {
   const [moreToLoad, setMoreToLoad] = useState(true);
 
   useEffect(() => {
+    if (props.commentCount < 0) {
+      props.setCommentCount(0);
+    }
+
     updateCommentCount();
   }, [props.commentCount]);
 
