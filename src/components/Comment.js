@@ -1,5 +1,4 @@
 import { TrashIcon } from "@heroicons/react/outline";
-import { deleteDoc, doc } from "firebase/firestore";
 import { FirebaseContext } from "../App";
 import { useContext, useEffect, useState } from "react";
 
@@ -10,14 +9,6 @@ export default function Comment(props) {
   useEffect(() => {
     setConfirmDeleteVisible(false);
   }, [props.comments]);
-
-  // async function deleteComment() {
-  //   await deleteDoc(
-  //     doc(firebase.db, "posts", props.data.postID, "comments", props.data.id)
-  //   );
-
-  //   props.deleteComment(props.data.id);
-  // }
 
   return (
     <article className="flex w-full justify-start place-items-start gap-3 sm:gap-4">
