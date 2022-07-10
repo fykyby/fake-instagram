@@ -22,35 +22,35 @@ export default function Post(props) {
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const [localLikeCount, setLocalLikeCount] = useState(0);
-  const [likeIcon, setLikeIcon] = useState(HeartIcon);
   const [localCommentCount, setLocalCommentCount] = useState(0);
   const [lastComment, setLastComment] = useState(null);
   const [commentsWindowVisible, setCommentsWindowVisible] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    async function setInitialLikeIcon() {
+    async function setInitialLikedState() {
       if (await checkIfLiked()) {
-        setLikeIcon(HeartIconSolid);
+        setLiked(true);
       } else {
-        setLikeIcon(HeartIcon);
+        setLiked(false);
       }
     }
 
+    setInitialLikedState();
     setLocalLikeCount(props.data.likeCount);
     setLocalCommentCount(props.data.commentCount);
-    setInitialLikeIcon();
     setLastComment(props.data.lastComment);
   }, []);
 
   async function handleLikes() {
     if (await checkIfLiked()) {
       setLocalLikeCount((prev) => prev - 1);
-      setLikeIcon(HeartIcon);
+      setLiked(false);
       removeLike();
       decrementLikeCount();
     } else {
       setLocalLikeCount((prev) => prev + 1);
-      setLikeIcon(HeartIconSolid);
+      setLiked(true);
       addLike();
       incrementLikeCount();
     }
@@ -199,12 +199,18 @@ export default function Post(props) {
         {imgLoaded ? null : <div className="h-96" />}
         <div className="px-3 py-2 sm:px-4 sm:py-4">
           <section className="pb-2 flex gap-3 md:gap-5 items-center justify-start">
-            <NavButton icon={likeIcon} onClick={handleLikes} classList="p-0" />
-            <NavButton
-              icon={AnnotationIcon}
-              onClick={showComments}
-              classList="p-0"
-            />
+            {liked ? (
+              <button onClick={handleLikes}>
+                <HeartIconSolid className="h-8 w-8 md:h-9 md:w-9" />
+              </button>
+            ) : (
+              <button onClick={handleLikes}>
+                <HeartIcon className="h-8 w-8 md:h-9 md:w-9" />
+              </button>
+            )}
+            <button onClick={showComments}>
+              <AnnotationIcon className="h-8 w-8 md:h-9 md:w-9" />
+            </button>
           </section>
           <h6 className="font-bold text-sm">{localLikeCount} likes</h6>
           <section className="flex justify-start place-items-start gap-2">
