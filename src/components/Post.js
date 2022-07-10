@@ -195,6 +195,7 @@ export default function Post(props) {
           style={{
             display: imgLoaded ? "" : "none",
           }}
+          onDoubleClick={handleLikes}
         />
         {imgLoaded ? null : <div className="h-96" />}
         <div className="px-3 py-2 sm:px-4 sm:py-4">
