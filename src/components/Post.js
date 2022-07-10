@@ -213,7 +213,9 @@ export default function Post(props) {
               <AnnotationIcon className="h-8 w-8 md:h-9 md:w-9" />
             </button>
           </section>
-          <h6 className="font-bold text-sm">{localLikeCount} likes</h6>
+          <h6 className="font-bold text-sm">
+            {localLikeCount} {localLikeCount === 1 ? "like" : "likes"}
+          </h6>
           <section className="flex justify-start place-items-start gap-2">
             <h6 className="font-bold text-sm md:text-base">
               {props.data.userName}
