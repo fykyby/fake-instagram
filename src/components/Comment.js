@@ -11,13 +11,13 @@ export default function Comment(props) {
     setConfirmDeleteVisible(false);
   }, [props.comments]);
 
-  async function deleteComment() {
-    await deleteDoc(
-      doc(firebase.db, "posts", props.data.postID, "comments", props.data.id)
-    );
+  // async function deleteComment() {
+  //   await deleteDoc(
+  //     doc(firebase.db, "posts", props.data.postID, "comments", props.data.id)
+  //   );
 
-    props.deleteComment(props.data.id);
-  }
+  //   props.deleteComment(props.data.id);
+  // }
 
   return (
     <article className="flex w-full justify-start place-items-start gap-3 sm:gap-4">
@@ -41,7 +41,7 @@ export default function Comment(props) {
             <div className="flex gap-3">
               <button
                 onClick={() => {
-                  deleteComment();
+                  props.deleteComment(props.data.id);
                 }}
                 className="outline-gray-200 outline-1 outline px-2 sm:py-1 font-semibold focus:outline-black"
               >

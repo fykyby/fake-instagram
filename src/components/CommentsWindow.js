@@ -7,8 +7,10 @@ import {
   limit,
   getDocs,
   startAfter,
+  increment,
   updateDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { FirebaseContext } from "../App";
 import { XIcon, ArrowRightIcon } from "@heroicons/react/outline";
@@ -30,13 +32,13 @@ export default function CommentsWindow(props) {
   );
   const [moreToLoad, setMoreToLoad] = useState(true);
 
-  useEffect(() => {
-    if (props.commentCount < 0) {
-      props.setCommentCount(0);
-    }
+  // useEffect(() => {
+  //   if (props.localCommentCount < 0) {
+  //     props.setLocalCommentCount(0);
+  //   }
 
-    updateCommentCount();
-  }, [props.commentCount]);
+  //   // updateCommentCount();
+  // }, [props.localCommentCount]);
 
   function handleChange(e) {
     setComment(e.target.value);
@@ -63,19 +65,18 @@ export default function CommentsWindow(props) {
     newComment.id = docRef.id;
 
     setLastComment(newComment);
-
-    props.setCommentCount((prev) => prev + 1);
+    incrementCommentCount();
+    props.setLocalCommentCount((prev) => prev + 1);
     setComments((prev) => [{ ...newComment }, ...prev]);
     setComment("");
   }
 
-  async function updateCommentCount() {
-    await updateDoc(doc(firebase.db, "posts", props.data.id), {
-      commentCount: props.commentCount,
-    });
-  }
-
   async function deleteComment(commentID) {
+    await deleteDoc(
+      doc(firebase.db, "posts", props.data.id, "comments", commentID)
+    );
+    decrementCommentCount();
+
     const index = comments.findIndex((comm) => {
       return comm.id === commentID;
     });
@@ -83,7 +84,7 @@ export default function CommentsWindow(props) {
     const newComments = comments;
     newComments.splice(index, 1);
 
-    props.setCommentCount((prev) => prev - 1);
+    props.setLocalCommentCount((prev) => prev - 1);
 
     if (newComments.length <= 0) {
       setLastComment(null);
@@ -92,6 +93,18 @@ export default function CommentsWindow(props) {
     }
 
     setComments([...newComments]);
+  }
+
+  async function incrementCommentCount() {
+    await updateDoc(doc(firebase.db, "posts", props.data.id), {
+      commentCount: increment(1),
+    });
+  }
+
+  async function decrementCommentCount() {
+    await updateDoc(doc(firebase.db, "posts", props.data.id), {
+      commentCount: increment(-1),
+    });
   }
 
   async function setLastComment(newVal) {

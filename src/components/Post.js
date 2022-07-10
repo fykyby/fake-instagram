@@ -9,6 +9,7 @@ import {
   deleteDoc,
   updateDoc,
   getDocs,
+  increment,
   setDoc,
   collection,
 } from "firebase/firestore";
@@ -20,9 +21,9 @@ export default function Post(props) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
   const [deleted, setDeleted] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [localLikeCount, setLocalLikeCount] = useState(0);
   const [likeIcon, setLikeIcon] = useState(HeartIcon);
-  const [commentCount, setCommentCount] = useState(0);
+  const [localCommentCount, setLocalCommentCount] = useState(0);
   const [lastComment, setLastComment] = useState(null);
   const [commentsWindowVisible, setCommentsWindowVisible] = useState(false);
 
@@ -35,25 +36,23 @@ export default function Post(props) {
       }
     }
 
-    setLikeCount(props.data.likeCount);
-    setCommentCount(props.data.commentCount);
+    setLocalLikeCount(props.data.likeCount);
+    setLocalCommentCount(props.data.commentCount);
     setInitialLikeIcon();
     setLastComment(props.data.lastComment);
   }, []);
 
-  useEffect(() => {
-    updateLikeCount();
-  }, [likeCount]);
-
   async function handleLikes() {
     if (await checkIfLiked()) {
-      setLikeCount((prev) => prev - 1);
+      setLocalLikeCount((prev) => prev - 1);
       setLikeIcon(HeartIcon);
       removeLike();
+      decrementLikeCount();
     } else {
-      setLikeCount((prev) => prev + 1);
+      setLocalLikeCount((prev) => prev + 1);
       setLikeIcon(HeartIconSolid);
       addLike();
+      incrementLikeCount();
     }
   }
 
@@ -84,9 +83,15 @@ export default function Post(props) {
     );
   }
 
-  async function updateLikeCount() {
+  async function incrementLikeCount() {
     await updateDoc(doc(firebase.db, "posts", props.data.id), {
-      likeCount: likeCount,
+      likeCount: increment(1),
+    });
+  }
+
+  async function decrementLikeCount() {
+    await updateDoc(doc(firebase.db, "posts", props.data.id), {
+      likeCount: increment(-1),
     });
   }
 
@@ -201,20 +206,20 @@ export default function Post(props) {
               classList="p-0"
             />
           </section>
-          <h6 className="font-bold text-sm">{likeCount} likes</h6>
+          <h6 className="font-bold text-sm">{localLikeCount} likes</h6>
           <section className="flex justify-start place-items-start gap-2">
             <h6 className="font-bold text-sm md:text-base">
               {props.data.userName}
             </h6>
             <p className="text-sm md:text-base">{props.data.caption}</p>
           </section>
-          {commentCount > 0 ? (
+          {localCommentCount > 0 ? (
             <div>
               <button
                 className="text-gray-500 font-bold"
                 onClick={showComments}
               >
-                Show all comments: {commentCount}
+                Show all comments: {localCommentCount}
               </button>
               {lastComment ? (
                 <section className="flex justify-start items-start gap-2">
@@ -232,8 +237,8 @@ export default function Post(props) {
         {commentsWindowVisible ? (
           <CommentsWindow
             data={props.data}
-            commentCount={commentCount}
-            setCommentCount={setCommentCount}
+            localCommentCount={localCommentCount}
+            setLocalCommentCount={setLocalCommentCount}
             lastComment={lastComment}
             setLastComment={setLastComment}
             hideWindow={hideComments}
