@@ -217,10 +217,12 @@ export default function Post(props) {
             {localLikeCount} {localLikeCount === 1 ? "like" : "likes"}
           </h6>
           <section className="flex justify-start place-items-start gap-2">
-            <h6 className="font-bold text-sm md:text-base">
+            <h6 className="font-bold text-sm md:text-base whitespace-nowrap">
               {props.data.userName}
             </h6>
-            <p className="text-sm md:text-base">{props.data.caption}</p>
+            <p className="text-sm md:text-base whitespace-pre-wrap max-h-24 overflow-y-auto w-full">
+              {props.data.caption}
+            </p>
           </section>
           {localCommentCount > 0 ? (
             <div>
