@@ -190,7 +190,7 @@ export default function Post(props) {
         <img
           src={props.data.img}
           alt=""
-          className="w-full max-h-[75vh] object-contain outline outline-1 outline-gray-200"
+          className="w-full max-h-[65vh] object-contain outline outline-1 outline-gray-200"
           onLoad={() => setImgLoaded(true)}
           style={{
             display: imgLoaded ? "" : "none",
