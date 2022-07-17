@@ -10,7 +10,7 @@ export default function Login(props) {
         <h1 className="text-4xl">Log in to continue</h1>
         <button
           onClick={props.login}
-          className="border border-1 border-gray-200 p-2 px-4 cursor-pointer"
+          className="border border-1 border-gray-200 p-2 px-4 cursor-pointer font-semibold"
         >
           Log in with Google
         </button>
