@@ -21,6 +21,7 @@ export default function TopBar(props) {
         <NavButton
           onClick={() => {
             setLogoutWindowVisible(true);
+            document.body.style.overflow = "hidden";
           }}
           classList="hidden sm:block"
         />
@@ -30,6 +31,7 @@ export default function TopBar(props) {
           logout={props.logout}
           hideWindow={() => {
             setLogoutWindowVisible(false);
+            document.body.style.overflow = "";
           }}
         />
       ) : null}

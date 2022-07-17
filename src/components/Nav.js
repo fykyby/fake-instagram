@@ -14,6 +14,7 @@ export default function Nav(props) {
       <NavButton
         onClick={() => {
           setLogoutWindowVisible(true);
+          document.body.style.overflow = "hidden";
         }}
       />
       {logoutWindowVisible ? (
@@ -21,6 +22,7 @@ export default function Nav(props) {
           logout={props.logout}
           hideWindow={() => {
             setLogoutWindowVisible(false);
+            document.body.style.overflow = "";
           }}
         />
       ) : null}
