@@ -32,14 +32,6 @@ export default function CommentsWindow(props) {
   );
   const [moreToLoad, setMoreToLoad] = useState(true);
 
-  // useEffect(() => {
-  //   if (props.localCommentCount < 0) {
-  //     props.setLocalCommentCount(0);
-  //   }
-
-  //   // updateCommentCount();
-  // }, [props.localCommentCount]);
-
   function handleChange(e) {
     setComment(e.target.value);
   }
