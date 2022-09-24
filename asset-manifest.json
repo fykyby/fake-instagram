@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/fake-instagram/static/css/main.1f5f578d.css",
+    "main.js": "/fake-instagram/static/js/main.8c9821db.js",
+    "static/media/GrandHotel-Regular.ttf": "/fake-instagram/static/media/GrandHotel-Regular.ecf0519e05e1b7500b28.ttf",
+    "index.html": "/fake-instagram/index.html",
+    "main.1f5f578d.css.map": "/fake-instagram/static/css/main.1f5f578d.css.map",
+    "main.8c9821db.js.map": "/fake-instagram/static/js/main.8c9821db.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1f5f578d.css",
+    "static/js/main.8c9821db.js"
+  ]
+}
