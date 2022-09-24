@@ -65,7 +65,7 @@ export default function App() {
 
   if (currentUser) {
     return (
-      <BrowserRouter basename="/">
+      <BrowserRouter basename="/fake-instagram">
         <FirebaseContext.Provider value={firebase}>
           <TopBar logout={logOut} />
           <Routes>
