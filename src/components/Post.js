@@ -1,6 +1,10 @@
 import Avatar from "./Avatar";
-import { HeartIcon, AnnotationIcon, TrashIcon } from "@heroicons/react/outline";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
+import {
+  HeartIcon,
+  ChatBubbleLeftIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import NavButton from "./NavButton";
 import { useState, useContext, useEffect } from "react";
 import { FirebaseContext } from "../App";
@@ -210,7 +214,7 @@ export default function Post(props) {
               </button>
             )}
             <button onClick={showComments}>
-              <AnnotationIcon className="h-8 w-8 md:h-9 md:w-9" />
+              <ChatBubbleLeftIcon className="h-8 w-8 md:h-9 md:w-9" />
             </button>
           </section>
           <h6 className="font-bold text-sm">

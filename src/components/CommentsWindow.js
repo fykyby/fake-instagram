@@ -13,7 +13,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { FirebaseContext } from "../App";
-import { XIcon, ArrowRightIcon } from "@heroicons/react/outline";
+import { XMarkIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import InfiniteScroll from "react-infinite-scroller";
 import Comment from "./Comment";
 
@@ -149,7 +149,7 @@ export default function CommentsWindow(props) {
     >
       <section className="flex px-3 py-2 justify-end items-center bg-white outline-gray-200 outline outline-1 w-full max-w-[48rem]">
         <button onClick={props.hideWindow}>
-          <XIcon className="h-6 w-6" />
+          <XMarkIcon className="h-6 w-6" />
         </button>
       </section>
       <div className="flex flex-col p-3 sm:p-4 gap-3 sm:gap-4 bg-white outline-gray-200 outline outline-1 w-full max-w-[48rem] min-h-[6rem] max-h-[65vh] overflow-y-auto">

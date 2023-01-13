@@ -1,4 +1,4 @@
-import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
+import { HomeIcon, PlusIcon } from "@heroicons/react/24/outline";
 import NavButton from "./NavButton";
 import NavLink from "./NavLink";
 import LogoutWindow from "./LogoutWindow";

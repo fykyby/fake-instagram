@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import NavLink from "./NavLink";
 import NavButton from "./NavButton";
-import { PlusIcon, HomeIcon } from "@heroicons/react/outline";
+import { HomeIcon, PlusIcon } from "@heroicons/react/24/outline";
 import LogoutWindow from "./LogoutWindow";
 import { useState } from "react";
 

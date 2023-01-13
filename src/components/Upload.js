@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { PlusIcon, CheckIcon } from "@heroicons/react/outline";
+import { PlusIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { FirebaseContext } from "../App";
 import { addDoc, collection } from "firebase/firestore";
 import { uploadBytes, ref } from "firebase/storage";

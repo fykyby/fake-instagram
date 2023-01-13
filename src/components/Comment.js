@@ -1,4 +1,4 @@
-import { TrashIcon } from "@heroicons/react/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { FirebaseContext } from "../App";
 import { useContext, useEffect, useState } from "react";
 
@@ -12,15 +12,8 @@ export default function Comment(props) {
 
   return (
     <article className="flex w-full justify-start place-items-start gap-3 sm:gap-4">
-      <div>
-        <div className={"h-6 w-6 md:h-7 md:w-7  rounded-full overflow-hidden"}>
-          <img
-            src={props.data.profilePic}
-            height="320px"
-            width="320px"
-            alt=""
-          />
-        </div>
+      <div className="h-6 w-6 md:h-7 md:w-7 rounded-full overflow-hidden">
+        <img src={props.data.profilePic} height="320px" width="320px" alt="" />
       </div>
       <h6 className="font-bold text-sm md:text-base whitespace-nowrap">
         {props.data.userName}
@@ -49,7 +42,7 @@ export default function Comment(props) {
             </div>
           ) : (
             <button onClick={() => setConfirmDeleteVisible(true)}>
-              <TrashIcon className="h-6 w-6 md:h-8 md:w-8" />
+              <TrashIcon className="h-6 w-6 md:h-7 md:w-7" />
             </button>
           )}
         </div>
