@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/fake-instagram/static/css/main.f40898e1.css",
-    "main.js": "/fake-instagram/static/js/main.5b665fe6.js",
+    "main.css": "/fake-instagram/static/css/main.710a8317.css",
+    "main.js": "/fake-instagram/static/js/main.09779082.js",
     "static/media/GrandHotel-Regular.ttf": "/fake-instagram/static/media/GrandHotel-Regular.ecf0519e05e1b7500b28.ttf",
     "index.html": "/fake-instagram/index.html",
-    "main.f40898e1.css.map": "/fake-instagram/static/css/main.f40898e1.css.map",
-    "main.5b665fe6.js.map": "/fake-instagram/static/js/main.5b665fe6.js.map"
+    "main.710a8317.css.map": "/fake-instagram/static/css/main.710a8317.css.map",
+    "main.09779082.js.map": "/fake-instagram/static/js/main.09779082.js.map"
   },
   "entrypoints": [
-    "static/css/main.f40898e1.css",
-    "static/js/main.5b665fe6.js"
+    "static/css/main.710a8317.css",
+    "static/js/main.09779082.js"
   ]
 }
